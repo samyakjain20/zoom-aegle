@@ -6,7 +6,7 @@ function runFunc(err) {
   if (err) {
     console.log(err);
   }
-  console.log('Listening at http://127.0.0.1:9999/index.html');
+  console.log('Listening at http://127.0.0.1:3000/index.html');
 }
 
 new WebpackDevServer(webpack(webpackConfig), {
@@ -20,14 +20,14 @@ new WebpackDevServer(webpack(webpackConfig), {
     // 'Cross-Origin-Embedder-Policy': 'unsafe-none',
     // 'Cross-Origin-Opener-Policy': 'unsafe-none',
   },
-  openPage: 'http://127.0.0.1:9999/index.html',
+  openPage: 'http://127.0.0.1:3000/index.html',
   disableHostCheck: true,
   historyApiFallback: true,
   proxy: [{
     path: '/meeting.html',
     target: 'http://127.0.0.1:9998/'
   }]
-}).listen(9999, '0.0.0.0', runFunc);
+}).listen(process.env.PORT || 3000, '0.0.0.0', runFunc);
 
 new WebpackDevServer(webpack(webpackConfig), {
   publicPath: '/static',
