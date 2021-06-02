@@ -1,82 +1,103 @@
-import './App.css';
+import "./App.css";
+const crypto = require("crypto"); // crypto comes with Node.js
 
-declare var ZoomMtg
+function generateSignature(apiKey, apiSecret, meetingNumber, role) {
+	// Prevent time sync issue between client signature generation and zoom
+	var signature;
+	const timestamp = new Date().getTime() - 30000;
+	try {
+		const msg = Buffer.from(apiKey + meetingNumber + timestamp + role).toString("base64");
+		const hash = crypto.createHmac("sha256", apiSecret).update(msg).digest("base64");
+		signature = Buffer.from(`${apiKey}.${meetingNumber}.${timestamp}.${role}.${hash}`).toString("base64");
+	} catch (e) {
+		console.log(" gen error :" + e);
+	}
 
-ZoomMtg.setZoomJSLib('https://source.zoom.us/1.9.5/lib', '/av');
+	return signature;
+}
+
+declare var ZoomMtg;
+
+ZoomMtg.setZoomJSLib("https://source.zoom.us/1.9.5/lib", "/av");
 
 ZoomMtg.preLoadWasm();
 ZoomMtg.prepareJssdk();
 
 function App() {
+	// setup your signature endpoint here: https://github.com/zoom/websdk-sample-signature-node.js
 
-  // setup your signature endpoint here: https://github.com/zoom/websdk-sample-signature-node.js
-  var signatureEndpoint = ''
-  var apiKey = ''
-  var meetingNumber = '123456789'
-  var role = 0
-  var leaveUrl = 'http://localhost:3000'
-  var userName = 'React'
-  var userEmail = ''
-  var passWord = ''
+	var apiKey = "dkTOd-IzS2emVPW89C7qUg";
+	var meetingNumber = 93649830507;
+	var role = 0;
+	var leaveUrl = "http://localhost:3000";
+	var userName = "RUCHIKA";
+	var userEmail = "bhaisareruchika@gmail.com";
+	var passWord = "c1hFCu";
+	var signatureEndpoint = "";
 
-  function getSignature(e) {
-    e.preventDefault();
+	console.log(signatureEndpoint);
 
-    fetch(signatureEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        meetingNumber: meetingNumber,
-        role: role
-      })
-    }).then(res => res.json())
-    .then(response => {
-      startMeeting(response.signature)
-    }).catch(error => {
-      console.error(error)
-    })
-  }
+	// function getSignature(e) {
+	// 	e.preventDefault();
 
-  function startMeeting(signature) {
-    document.getElementById('zmmtg-root').style.display = 'block'
+	// 	fetch(signatureEndpoint, {
+	// 		method: "POST",
+	// 		headers: { "Content-Type": "application/json" },
+	// 		body: JSON.stringify({
+	// 			meetingNumber: meetingNumber,
+	// 			role: role,
+	// 		}),
+	// 	})
+	// 		.then((res) => res.json())
+	// 		.then((response) => {
+	// 			startMeeting(response.signature);
+	// 		})
+	// 		.catch((error) => {
+	// 			console.error(error);
+	// 		});
+	// }
 
-    ZoomMtg.init({
-      leaveUrl: leaveUrl,
-      isSupportAV: true,
-      success: (success) => {
-        console.log(success)
+	function startMeeting() {
+		document.getElementById("zmmtg-root").style.display = "block";
 
-        ZoomMtg.join({
-          signature: signature,
-          meetingNumber: meetingNumber,
-          userName: userName,
-          apiKey: apiKey,
-          userEmail: userEmail,
-          passWord: passWord,
-          success: (success) => {
-            console.log(success)
-          },
-          error: (error) => {
-            console.log(error)
-          }
-        })
+		signatureEndpoint = generateSignature(apiKey, "FaJdZc5L6ILEZgKx6mylKCui2KDHo6vtMAaa", meetingNumber, role);
 
-      },
-      error: (error) => {
-        console.log(error)
-      }
-    })
-  }
+		ZoomMtg.init({
+			leaveUrl: leaveUrl,
+			isSupportAV: true,
+			success: (success) => {
+				console.log(success);
 
-  return (
-    <div className="App">
-      <main>
-        <h1>Zoom WebSDK Sample React</h1>
+				ZoomMtg.join({
+					signature: signatureEndpoint,
+					meetingNumber: meetingNumber,
+					userName: userName,
+					apiKey: apiKey,
+					userEmail: userEmail,
+					passWord: passWord,
+					success: (success) => {
+						console.log(success);
+					},
+					error: (error) => {
+						console.log(error);
+					},
+				});
+			},
+			error: (error) => {
+				console.log(error);
+			},
+		});
+	}
 
-        <button onClick={getSignature}>Join Meeting</button>
-      </main>
-    </div>
-  );
+	return (
+		<div className="App">
+			<main>
+				<h1>Zoom WebSDK Sample React</h1>
+
+				<button onClick={startMeeting}>Join Meeting</button>
+			</main>
+		</div>
+	);
 }
 
 export default App;
