@@ -28,15 +28,15 @@ app.post('/contact', (req,res) =>{
     service: 'gmail',
     auth: {
         user: 'samyak.21810494@viit.ac.in',
-        pass: ""
+        pass: "cloudcomputing"
     }
   })
 
   const mailOptions = {
-      from: req.body.email,
-      to: 'samyak.21810494@viit.ac.in',
+      from: 'samyak.21810494@viit.ac.in',
+      to: req.body.email,
       subject: `Message from ${req.body.name}: ${req.body.subject}`,
-      text: req.body.message
+      text: `Mail from ${req.body.email}. ${req.body.message}`
   }
 
   tranporter.sendMail(mailOptions, (error, info) => {
