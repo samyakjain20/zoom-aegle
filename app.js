@@ -28,7 +28,7 @@ app.post('/contact', (req,res) =>{
     service: 'gmail',
     auth: {
         user: 'samyak.21810494@viit.ac.in',
-        pass: "cloudcomputing"
+        pass: "softwaretesting20&"
     }
   })
 
