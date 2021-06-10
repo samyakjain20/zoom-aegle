@@ -5,22 +5,71 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 const nodemailer = require('nodemailer')
-var indexRouter = require('./routes/index');
+const { render } = require('ejs');
+const mongoose = require('mongoose');
+const Webinar = require('./models/webinar');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 app.use(logger('dev'));
 app.use(express.json());
-app.use(cors());
+app.use(cors()); //inter enviornment 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+//connect to mongoDb
+const dbURI = 'mongodb+srv://admin_forum:adminforum@cluster0.w7lbe.mongodb.net/discussion?retryWrites=true&w=majority';
+mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then((result) => console.log('connected to db'))
+    .catch((err) => console.log(err));
+
+app.get('/', (req,res) => {
+  res.redirect('/webinars');
+});
+
+app.get('/webinars', (req,res) => {
+  Webinar.find().sort({createdAt: -1 })
+    .then((result) => {
+        res.render('webinars', {title: "All Webinars", webinars: result })
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+});
+
+app.get('/createWeb', function(req, res, next) {
+  res.render('createWeb', { title: 'Create Webinars' });
+});
+
+app.post('/createWeb', (req, res, next) => {
+  const webinar= new Webinar(req.body);
+  console.log("HEELO", webinar);
+
+  webinar.save()
+    .then((result) => {
+        res.redirect("/webinars");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+});
+
+app.delete('/webinar', (req, res) => {
+    const id = req.body._id;
+    console.log(id);
+    Webinar.findByIdAndDelete(id)
+    .then(result => {
+      res.json({ redirect: '/webinars' });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 app.post('/contact', (req,res) =>{
   console.log(req.body)
@@ -28,13 +77,13 @@ app.post('/contact', (req,res) =>{
     service: 'gmail',
     auth: {
         user: 'samyak.21810494@viit.ac.in',
-        pass: "softwaretesting20&"
+        pass: ""
     }
   })
 
   const mailOptions = {
-      from: req.body.email,
-      to: 'samyak.21810494@viit.ac.in',
+      from: 'samyak.21810494@viit.ac.in',
+      to: req.body.email,
       subject: `Message from ${req.body.name}: ${req.body.subject}`,
       text: `Mail from ${req.body.email}. ${req.body.message}`
   }
