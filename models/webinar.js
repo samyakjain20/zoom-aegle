@@ -14,6 +14,11 @@ const webinarSchema = new Schema({
         type: String,
         required: false
     },
+    imagePath: {
+        type: String,
+        default: "/imagesUploaded/default.jpg",
+        required: true,
+    },
     description: {
         type: String,
         required: true

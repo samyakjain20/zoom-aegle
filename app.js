@@ -8,6 +8,24 @@ const nodemailer = require('nodemailer')
 const { render } = require('ejs');
 const mongoose = require('mongoose');
 const Webinar = require('./models/webinar');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'public/imagesUploaded/');
+  },
+  filename: function(req, file, cb){
+    cb(null, file.originalname);
+  }
+})
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png'){
+    cb( null,true);
+  } else {
+    cb( null, false);
+  }
+}
+const upload = multer({storage: storage, fileFilter: fileFilter});
 
 var app = express();
 
@@ -16,7 +34,7 @@ app.use(express.json());
 app.use(cors()); //inter enviornment 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public',express.static( 'public'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +46,7 @@ mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
     .then((result) => console.log('connected to db'))
     .catch((err) => console.log(err));
 
+//router
 app.get('/', (req,res) => {
   res.redirect('/webinars');
 });
@@ -46,9 +65,14 @@ app.get('/createWeb', function(req, res, next) {
   res.render('createWeb', { title: 'Create Webinars' });
 });
 
-app.post('/createWeb', (req, res, next) => {
-  const webinar= new Webinar(req.body);
-  console.log("HEELO", webinar);
+app.post('/createWeb', upload.single('image'), (req, res, next) => {
+  const webinar= new Webinar({
+    title: req.body.title,
+    dateTime: req.body.dateTime,
+    link: req.body.link,
+    imagePath: req.file.path,
+    description: req.body.description,
+  });
 
   webinar.save()
     .then((result) => {
@@ -58,6 +82,29 @@ app.post('/createWeb', (req, res, next) => {
         console.log(err);
     });
 });
+
+//edit webinar get req
+app.get('/editWeb/:id', (req,res) => {
+  Webinar.findById(req.params.id)
+  .then((result) => {
+      res.render('editWeb', {webinar: result, title: "Editing Webinar"});
+  })
+})
+
+//edit webinar post request 
+app.post('/editWeb/:id', upload.single('image'), (req,res) => {
+
+  Webinar.findByIdAndUpdate(req.params.id, { $set: {
+    title : req.body.title,
+    dateTime: req.body.dateTime,
+    link: req.body.link,
+    imagePath: req.file.path,
+    description: req.body.description 
+  }})
+  .then((result) => {
+    res.redirect('/webinars');
+  })
+})
 
 app.delete('/webinar', (req, res) => {
     const id = req.body._id;
@@ -80,14 +127,12 @@ app.post('/contact', (req,res) =>{
         pass: ""
     }
   })
-
   const mailOptions = {
       from: 'samyak.21810494@viit.ac.in',
       to: req.body.email,
       subject: `Message from ${req.body.name}: ${req.body.subject}`,
       text: `Mail from ${req.body.email}. ${req.body.message}`
   }
-
   tranporter.sendMail(mailOptions, (error, info) => {
       if(error){
           console.log(error);
