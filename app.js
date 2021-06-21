@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer')
 const { render } = require('ejs');
 const mongoose = require('mongoose');
 const Webinar = require('./models/webinar');
+//file
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -43,13 +44,20 @@ app.set('view engine', 'ejs');
 //connect to mongoDb
 const dbURI = 'mongodb+srv://admin_forum:adminforum@cluster0.w7lbe.mongodb.net/discussion?retryWrites=true&w=majority';
 mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
-    .then((result) => console.log('connected to db'))
-    .catch((err) => console.log(err));
+  .then((result) => console.log('connected to db'))
+  .catch((err) => console.log(err));
 
 //router
 app.get('/', (req,res) => {
   res.redirect('/webinars');
 });
+
+app.get('/clientWeb', (req,res) => {
+  Webinar.find().sort({createdAt: -1 })
+  .then((result) => {
+    res.send({webinars: result})
+  })
+})
 
 app.get('/webinars', (req,res) => {
   Webinar.find().sort({createdAt: -1 })
@@ -66,6 +74,7 @@ app.get('/createWeb', function(req, res, next) {
 });
 
 app.post('/createWeb', upload.single('image'), (req, res, next) => {
+  console.log(req.file);
   const webinar= new Webinar({
     title: req.body.title,
     dateTime: req.body.dateTime,
@@ -93,7 +102,7 @@ app.get('/editWeb/:id', (req,res) => {
 
 //edit webinar post request 
 app.post('/editWeb/:id', upload.single('image'), (req,res) => {
-
+  console.log(req.file);
   Webinar.findByIdAndUpdate(req.params.id, { $set: {
     title : req.body.title,
     dateTime: req.body.dateTime,
@@ -124,7 +133,7 @@ app.post('/contact', (req,res) =>{
     service: 'gmail',
     auth: {
         user: 'samyak.21810494@viit.ac.in',
-        pass: ""
+        pass: "softwaretesting20&"
     }
   })
   const mailOptions = {
@@ -145,6 +154,49 @@ app.post('/contact', (req,res) =>{
 
 })
 
+
+//zoom 
+// const rp = require('request-promise');
+// const jwt = require('jsonwebtoken');
+// const payload = {
+// 	iss: "dkTOd-IzS2emVPW89C7qUg",
+// 	exp: new Date().getTime() + 5000,
+// };
+// const token = jwt.sign(payload, "FaJdZc5L6ILEZgKx6mylKCui2KDHo6vtMAaa");
+
+// app.post("/newmeeting", (req, res) => {
+//   email = "ruchika.21810325@viit.ac.in";
+//   var options = {
+//     method: "POST",
+//     uri: "https://api.zoom.us/v2/users/" + email + "/meetings",
+//     body: {
+//       topic: "test create meeting",
+//       type: 1,
+//       settings: {
+//         host_video: "true",
+//         participant_video: "true"
+//       }
+//     },
+//     auth: {
+//       bearer: token
+//     },
+//     headers: {
+//       "User-Agent": "Zoom-api-Jwt-Request",
+//       "content-type": "application/json"
+//     },
+//     json: true //Parse the JSON string in the response
+//   };
+
+//   rp(options)
+//     .then(function(response) {
+//       console.log("response is: ", response);
+//       res.send("create meeting result: " + JSON.stringify(response));
+//     })
+//     .catch(function(err) {
+//       // API call failed...
+//       console.log("API call failed, reason ", err);
+//     });
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
