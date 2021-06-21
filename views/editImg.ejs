@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+  <%- include("./partials/header.ejs") %>
+
+  <main>
+    <div class="container">
+        <div class="row pt-5" >
+
+            <!--Grid column-->
+            <div class="col-md-12">
+    
+                  <div class="container">
+    
+                    <!--Section: Contact v.2-->
+                    <section class="section">
+    
+                      <!--Section heading-->
+                      <h2 class="font-weight-bold text-center h1 pt-5">Editing Image</h2>
+                      
+                      <div class="row pt-3">
+    
+                        <div class="col-lg-5 mb-4">
+                            <!-- Featured image -->
+                            <div class="view overlay z-depth-1">
+                                <img src="<%= webinar.imagePath %>" class="img-fluid" alt="<%= webinar.imagePath %>">
+                                <a> <div class="mask rgba-white-slight"></div> </a>
+                            </div>
+                            <p><%= webinar.imagePath %></p>
+                          </div>
+                          <!-- Grid column -->
+            
+                          <!-- Grid column -->
+                          <div class="col-lg-6 ml-xl-4 mb-4">
+                            <!-- Grid row -->
+                            <div class="row">      
+            
+                              <!-- Grid column -->
+                              <div class="col-xl-10 col-md-9 text-sm-center text-md-right text-lg-left">
+                                <h4 class="blue-text  font-weight-bold mb-1 spacing">
+                                  <a>
+                                    <strong><%= webinar.title %> </strong>
+                                  </a>
+                                </h4>
+                              </div>
+                              <!-- Grid column -->
+            
+                              <!-- Grid column -->
+                              <div class="col-xl-4 col-md-3 text-sm-center text-md-left">
+                                <p class="font-small grey-text">
+                                  <em> <%= webinar.createdAt.toDateString() %></em>
+                                </p>
+                              </div>
+                              <!-- Grid column -->
+                              
+            
+                            </div>
+                            <!-- Grid row -->
+            
+                            <!-- <h4 class="mb-3 dark-grey-text mt-0">
+                              <strong>
+                                <a><%= webinar.title %> </a>
+                              </strong>
+                            </h4> -->
+                            <p class="dark-grey-text">
+                              <%= webinar.description %>
+                            </p>
+                            <h6 class="black-text"><b>Time & Date:</b> <%= webinar.dateTime %></h6>
+                        
+                          <form action="/editImg/<%= webinar._id %>" enctype="multipart/form-data" method="POST">
+                            
+                            <div class="row">
+                                <div class="form-outline">
+                                  <input type="file" name="image" id="image" class="form-control" value="<%= webinar.imagePath %>" >
+                                  <label for="image" class="">Poster Image: 450px*300px (min)</label>  
+                                </div>          
+                            
+                                <div class="text-center text-md-left ">
+                                    <button type="submit" class="btn btn-sm btn-warning">Edit Image</button>
+                                </div>
+                            </div>
+                          </form>                          
+    
+                        <!--Grid column-->
+    
+                      </div>
+    
+                    </section>
+                    <!--Section: Contact v.2-->
+
+              </div>
+              <!--Grid column-->
+    
+            </div>
+            <!--Grid row-->
+    </div>
+  </main>
+    
+</body>
+</html>

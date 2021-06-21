@@ -99,17 +99,29 @@ app.get('/editWeb/:id', (req,res) => {
       res.render('editWeb', {webinar: result, title: "Editing Webinar"});
   })
 })
-
 //edit webinar post request 
-app.post('/editWeb/:id', upload.single('image'), (req,res) => {
-  console.log(req.file);
+app.post('/editWeb/:id', (req,res) => {
   Webinar.findByIdAndUpdate(req.params.id, { $set: {
     title : req.body.title,
     dateTime: req.body.dateTime,
     link: req.body.link,
-    imagePath: req.file.path,
     description: req.body.description 
   }})
+  .then((result) => {
+    res.redirect('/webinars');
+  })
+})
+
+app.get('/editImg/:id', (req,res) => {
+  Webinar.findById(req.params.id)
+  .then((result) => {
+      res.render('editImg', {webinar: result, title: "Editing Webinar"});
+  })
+})
+//edit webinar post request 
+app.post('/editImg/:id', upload.single('image'), (req,res) => {
+  console.log(req.file);
+  Webinar.findByIdAndUpdate(req.params.id, { $set: { imagePath: req.file.path, }})
   .then((result) => {
     res.redirect('/webinars');
   })
