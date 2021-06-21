@@ -133,7 +133,7 @@ app.post('/contact', (req,res) =>{
     service: 'gmail',
     auth: {
         user: 'samyak.21810494@viit.ac.in',
-        pass: "softwaretesting20&"
+        pass: ""
     }
   })
   const mailOptions = {
