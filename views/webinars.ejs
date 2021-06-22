@@ -1,0 +1,155 @@
+<html lang="en">
+<%- include("./partials/header.ejs") %>
+
+
+  <!-- Main Layout -->
+  <main>
+
+    <div class="container mt-5 pt-3">
+
+      <!-- Excerpt -->
+      <a href="">
+        <h6 class="text-center font-weight-bold blue-text">
+          <!-- <strong>HELLO WORLD!</strong> -->
+        </h6>
+      </a>
+      <h1 class="text-center font-weight-bold dark-grey-text py-3">
+        <strong>All Events & Webinars</strong>
+      </h1>
+      <!-- <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_GKN2jnSvu9XCRu" async> </script> </form> -->
+
+      <p class="grey-text text-center mb-5 pb-3">
+        <em>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
+          rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae sit aspernatur
+          aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi.</em>
+      </p>
+
+      <hr>
+
+      <!-- Blog -->
+      <div class="row mt-5 pt-3">
+
+        <!-- Main listing -->
+        <div class="col-lg-12 col-12 mt-1">
+
+          <!-- Section: Blog v.3 -->
+          <section class="pb-3 text-center text-lg-left">
+
+            <!-- Grid row -->
+            <div class="row">
+            <% if (webinars.length > 0) { %>
+              <% webinars.forEach(webinar => { %>    
+              
+              <!-- Grid column -->
+              <div class="col-lg-5 mb-4">
+                <!-- Featured image -->
+                <div class="view overlay z-depth-1">
+                    <img src="<%= webinar.imagePath %>" class="img-fluid" alt="<%= webinar.imagePath %>">
+                    <a> <div class="mask rgba-white-slight"></div> </a>
+                </div>
+                <!-- <p><%= webinar.imagePath %></p> -->
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-lg-6 ml-xl-4 mb-4">
+                <!-- Grid row -->
+                <div class="row">      
+
+                  <!-- Grid column -->
+                  <div class="col-xl-10 col-md-9 text-sm-center text-md-right text-lg-left">
+                    <h4 class="blue-text  font-weight-bold mb-1 spacing">
+                      <a>
+                        <strong><%= webinar.title %> </strong>
+                      </a>
+                    </h4>
+                  </div>
+                  <!-- Grid column -->
+
+                  <!-- Grid column -->
+                  <div class="col-xl-4 col-md-3 text-sm-center text-md-left">
+                    <p class="font-small grey-text">
+                      <em> <%= webinar.createdAt.toDateString() %></em>
+                    </p>
+                  </div>
+                  <!-- Grid column -->
+                  
+
+                </div>
+                <!-- Grid row -->
+
+                <!-- <h4 class="mb-3 dark-grey-text mt-0">
+                  <strong>
+                    <a><%= webinar.title %> </a>
+                  </strong>
+                </h4> -->
+                <p class="dark-grey-text">
+                  <%= webinar.description %>
+                </p>
+                <h6 class="black-text"><b>Time & Date:</b> <%= webinar.dateTime %></h6>
+
+                <ul class="unstyled">
+                  <a href="<%= webinar.link %>"><button type="button" class="btn btn-sm btn-primary my-0 p-2 px-3">Join Meeting</button></a>
+                  <a href="/editWeb/<%= webinar._id %>" class="btn btn-sm btn-warning my-0 p-2 px-3">Edit</a>
+                  <button type="button" onclick="webDelete('<%= webinar._id %>');" class="btn btn-sm btn-danger my-0 p-2 px-3">Delete Web</button>
+                </ul>
+              </div>
+              <!-- Grid column -->
+              <% }) %>
+              <% } else { %>
+                        <p>There are no webinars to display...</p>
+            <% } %>
+            <hr class="mb-5">
+
+            </div>
+            <!-- Grid row -->
+
+          </section>
+          <!-- Section: Blog v.3 -->          
+
+        </div>
+        <!-- Main listing -->
+        
+      </div>
+      <!-- Blog -->
+
+    </div>
+
+  </main>
+  <!-- Main Layout -->
+
+  <!-- Custom scripts -->
+  <script type="text/javascript">
+    // Animation
+    new WOW().init();
+
+    // MDB Lightbox Init
+    $(function () {
+      $("#mdb-lightbox-ui").load("../../mdb-addons/mdb-lightbox-ui.html");
+    });
+
+  </script>
+
+<script>
+  function webDelete(webinarId){
+    $.ajax({
+      url:"/webinar",
+      method: "DELETE",
+      data: {
+        "_id": webinarId
+      },
+      success: function (response){
+        response => response.json();
+        data => window.location.href = data.redirect;
+        location.reload();
+      },
+      error: function (response) {
+        err => console.log(err);
+      }
+    });
+  }
+</script>
+
+</body>
+
+</html>

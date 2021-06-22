@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+  <%- include("./partials/header.ejs") %>
+
+  <main>
+    <div class="container">
+        <div class="row pt-5" >
+
+            <!--Grid column-->
+            <div class="col-md-12">
+    
+                  <div class="container">
+    
+                    <!--Section: Contact v.2-->
+                    <section class="section">
+    
+                      <!--Section heading-->
+                      <h2 class="font-weight-bold text-center h1 pt-5">Create Webinar</h2>
+                      <!--Section description-->
+                      <!-- <p class="text-center grey-text mb-5 mx-auto w-responsive">Lorem ipsum dolor sit amet, consectetur
+                        adipisicing elit. Fugit, error amet numquam iure provident voluptate
+                        esse quasi, veritatis totam voluptas nostrum quisquam eum porro a pariatur accusamus veniam.</p> -->
+    
+                      <div class="row pt-3">
+    
+                        <!--Grid column-->
+                        <div class="col-md-8 col-xl-9">
+                          <form method="POST" enctype="multipart/form-data" action="/createWeb">
+    
+                            <!--Grid row-->
+                            <div class="row">
+    
+                              <!--Grid column-->
+                              <div class="col-md-6">
+                                <div class="form-outline">
+                                  <input type="text" name="title" id="title" class="form-control" required>
+                                  <label for="title" class="">Webinar Title</label>
+                                </div>
+                              </div>
+                              <!--Grid column-->
+    
+                              <!--Grid column-->
+                              <div class="col-md-6">
+                                <div class="form-outline">
+                                  <input type="text" name="dateTime" id="dateTime" class="form-control" required>
+                                  <label for="dateTime" class="">Date & Time Picker Will be here</label>
+                                </div>
+                              </div>
+                              <!--Grid column-->
+    
+                            </div>
+                            <!--Grid row-->
+    
+                            <!--Grid row-->
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-outline">
+                                  <input type="text" name="link" id="link" class="form-control" >
+                                  <label for="link" class="">Link of Webinar</label>
+                                </div>
+                              </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="form-outline">
+                                  <input type="file" name="image" class="form-control mt-0 pt-0" id="image" required>
+                                  <label for="image" class="">Poster Image: 450px*300px (min) After submit click one Edit</label>
+                                </div>
+                            </div>
+                            <!--Grid row-->
+    
+                            <!--Grid row-->
+                            <div class="row">
+    
+                              <!--Grid column-->
+                              <div class="col-md-12">
+    
+                                <div class="form-outline">
+                                  <textarea type="text" name="description" id="description" class="md-textarea form-control" rows="3" required></textarea>
+                                  <label for="description">Webinar description</label>
+                                </div>
+    
+                              </div>
+                            </div>
+                            <!--Grid row-->
+    
+                            <div class="text-center text-md-left my-4">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </form>
+    
+                        </div>
+                        <!--Grid column-->
+    
+                      </div>
+    
+                    </section>
+                    <!--Section: Contact v.2-->
+
+              </div>
+              <!--Grid column-->
+    
+            </div>
+            <!--Grid row-->
+    </div>
+  </main>
+    
+</body>
+</html>

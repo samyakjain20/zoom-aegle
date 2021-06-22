@@ -1,0 +1,76 @@
+<html lang="en">
+
+  <main>
+    <%- include("./partials/header.ejs") %>
+    <div class="container">
+      <h1>
+        <strong>All Events & Webinars</strong>
+      </h1>
+      <h1 class="text-center" style="margin-top: 5%;">Appointments</h1>
+      <div class="table-responsive mx-5 p-5">
+        <table class="table wow fadeIn" data-wow-delay=".4s">           
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Day</th>
+              <th>Time</th>
+              <th>Mail ID</th>
+              <th>Subject</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (appointments.length > 0) { %>
+              <% appointments.forEach(appointment => { %>  
+            <tr>
+              <th scope="row"><%= appointment.name %></th>
+              <td><%= appointment.day %></td>
+              <td><%= appointment.time %></td>
+              <td><%= appointment.email %></td>
+              <td><%= appointment.subject %></td>
+            </tr>
+            <% }) %>
+              <% } else { %>
+                        <p>There are no webinars to display...</p>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <!-- Main Layout -->
+
+  <!-- Custom scripts -->
+  <script type="text/javascript">
+    // Animation
+    new WOW().init();
+
+    // MDB Lightbox Init
+    $(function () {
+      $("#mdb-lightbox-ui").load("../../mdb-addons/mdb-lightbox-ui.html");
+    });
+
+  </script>
+
+  <script>
+    function webDelete(webinarId) {
+      $.ajax({
+        url: "/webinar",
+        method: "DELETE",
+        data: {
+          "_id": webinarId
+        },
+        success: function (response) {
+          response => response.json();
+          data => window.location.href = data.redirect;
+          location.reload();
+        },
+        error: function (response) {
+          err => console.log(err);
+        }
+      });
+    }
+  </script>
+
+  </body>
+
+</html>
