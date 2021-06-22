@@ -14,8 +14,11 @@ router.get('/createWeb', function(req, res, next) {
   res.render('createWeb', { title: 'Create Webinars' });
 });
 
+<<<<<<< HEAD
 router.get('/schedule', function(req, res, next) {
   res.render('appointments', { title: 'Appointments' });
 });
+=======
+>>>>>>> e638cae6f592533c821232ed27ee35c7dcf2b095
 
 module.exports = router;
