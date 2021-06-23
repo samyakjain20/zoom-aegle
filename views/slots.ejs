@@ -11,19 +11,19 @@
         <table class="table wow fadeIn" data-wow-delay=".4s">           
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Day</th>
-              <th>Time</th>
+              <th>Slot Time</th>
+              <th>Status</th>
+              <!-- <th>Time</th>
               <th>Mail ID</th>
-              <th>Subject</th>
+              <th>Subject</th> -->
             </tr>
           </thead>
           <tbody>
-            <% if (appointments.length > 0) { %>
-              <% appointments.forEach(appointment => { %>  
+            <% if (slots.length > 0) { %>
+              <% slots.forEach(slot => { %>  
             <tr>
-              <th scope="row"><%= appointment.name %></th>
-              <td><%= appointment.day %></td>
+              <th scope="row"><%= slot.key %></th>
+              <td><% if(slot.) %></td>
               <td><%= appointment.time %></td>
               <td><%= appointment.email %></td>
               <!-- <td><%= appointment.subject %></td> -->
