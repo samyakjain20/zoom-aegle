@@ -201,25 +201,25 @@ app.post('/schedule', (req, res, next) => {
     time:req.body.time
   });
 
-  // Slot.find()
-  //   .then((result) => {
-  //     var a = req.body.day;
-  //     if(a==="Today"){
-  //       var b = result[0].today;
-  //     }
-  //     else{
-  //       var b = result[0].tomorrow;
-  //     }
-  //   console.log(b,result[0]._id)
-  //   Slot.findByIdAndUpdate(result[0]._id,{ $set: {
-  //     // console.log(b.time)
-  //   }})
-  //   .then(()=>{
+  Slot.find()
+    .then((result) => {
+      var a = req.body.day;
+      if(a==="Today"){
+        var b = result[0].today;
+      }
+      else{
+        var b = result[0].tomorrow;
+      }
+    console.log(b,result[0]._id)
+    Slot.findByIdAndUpdate(result[0]._id,{ $set: {
+      // console.log(b.time)
+    }})
+    .then(()=>{
 
-  //   })
-  //   .catch((err) => {
-  //       console.log(err);
-  //   });
+    })
+    .catch((err) => {
+        console.log(err);
+    });
   
   appointment.save()
     .then((result) => {
@@ -229,6 +229,7 @@ app.post('/schedule', (req, res, next) => {
         console.log(err);
     });
 });
+})
 
 
 // app.use('/api/', require('./views/controllers/hello'))   
