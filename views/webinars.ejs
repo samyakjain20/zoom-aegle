@@ -16,12 +16,7 @@
       <h1 class="text-center font-weight-bold dark-grey-text py-3">
         <strong>All Events & Webinars</strong>
       </h1>
-<<<<<<< HEAD
-      <!-- <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_GKN2jnSvu9XCRu" async> </script> </form> -->
-
-=======
       
->>>>>>> e638cae6f592533c821232ed27ee35c7dcf2b095
       <p class="grey-text text-center mb-5 pb-3">
         <em>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
           rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae sit aspernatur
@@ -43,11 +38,7 @@
             <div class="row">
             <% if (webinars.length > 0) { %>
               <% webinars.forEach(webinar => { %>    
-<<<<<<< HEAD
               
-=======
-
->>>>>>> e638cae6f592533c821232ed27ee35c7dcf2b095
               <!-- Grid column -->
               <div class="col-lg-5 mb-4">
                 <!-- Featured image -->
@@ -55,11 +46,7 @@
                     <img src="<%= webinar.imagePath %>" class="img-fluid" alt="<%= webinar.imagePath %>">
                     <a> <div class="mask rgba-white-slight"></div> </a>
                 </div>
-<<<<<<< HEAD
                 <!-- <p><%= webinar.imagePath %></p> -->
-=======
-                <p><%= webinar.imagePath %></p>
->>>>>>> e638cae6f592533c821232ed27ee35c7dcf2b095
               </div>
               <!-- Grid column -->
 
@@ -103,10 +90,7 @@
                 <ul class="unstyled">
                   <a href="<%= webinar.link %>"><button type="button" class="btn btn-sm btn-primary my-0 p-2 px-3">Join Meeting</button></a>
                   <a href="/editWeb/<%= webinar._id %>" class="btn btn-sm btn-warning my-0 p-2 px-3">Edit</a>
-<<<<<<< HEAD
-=======
                   <a href="/editImg/<%= webinar._id %>" class="btn btn-sm btn-warning my-0 p-2 px-3">Edit Img</a>
->>>>>>> e638cae6f592533c821232ed27ee35c7dcf2b095
                   <button type="button" onclick="webDelete('<%= webinar._id %>');" class="btn btn-sm btn-danger my-0 p-2 px-3">Delete Web</button>
                 </ul>
               </div>

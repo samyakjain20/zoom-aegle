@@ -24,11 +24,7 @@
     
                         <!--Grid column-->
                         <div class="col-md-8 col-xl-9">
-<<<<<<< HEAD
-                          <form action="/editWeb/<%= webinar._id %>" enctype="multipart/form-data" method="POST">
-=======
                           <form action="/editWeb/<%= webinar._id %>" method="POST">
->>>>>>> e638cae6f592533c821232ed27ee35c7dcf2b095
     
                             <!--Grid row-->
                             <div class="row">
@@ -62,30 +58,6 @@
                                   <label for="link" class="">Link of Webinar</label>
                                 </div>
                               </div>
-<<<<<<< HEAD
-
-                              <!-- <div class="col-md-6">
-                                <div class="form-outline">
-                                  <input type="file" name="poster" class="form-control mt-0 pt-0" id="poster" >
-                                  <label for="poster" class="">Poster Image: 450px*300px (min)</label>
-                                </div>                                
-                              </div> -->
-                            </div>
-
-                            <div class="row">
-                              <!-- <form method="POST" action="/imageWeb" process enctype="multipart/form-data">                               -->
-                                <div class="form-outline">
-                                  <input type="file" name="image" id="image" class="form-control" >
-                                  <label for="image" class="">Poster Image: 450px*300px (min)</label>
-  
-                                  <!-- <input type="text" name="webId" value="<%= webinar._id %>" hidden> -->
-                                </div>                                
-                                <!-- <div class="text-center text-md-left px-2 my-0 py-0">
-                                  <input class="btn btn-primary" type="submit" value="Upload New">
-                                </div> -->
-                              <!-- </form> -->
-                            </div>
-=======
                             </div>
 
                             <!-- <div class="row">
@@ -94,7 +66,6 @@
                                   <label for="image" class="">Poster Image: 450px*300px (min)</label>
                                 </div>
                             </div> -->
->>>>>>> e638cae6f592533c821232ed27ee35c7dcf2b095
 
                             <!--Grid row-->
                             <div class="row">
@@ -133,26 +104,6 @@
             <!--Grid row-->
     </div>
   </main>
-<<<<<<< HEAD
-
-  <script>
-    $("#formImage").on("Submit", function(e) {
-      e.preventDefault()
-      $.ajax({
-        url: "/imageWeb",
-        method: "POST",
-        data: new FormData(this),
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(resposne) {
-          console.log(response)
-        }
-      })
-    })
-  </script>
-=======
->>>>>>> e638cae6f592533c821232ed27ee35c7dcf2b095
     
 </body>
 </html>

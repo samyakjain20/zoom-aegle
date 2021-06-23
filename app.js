@@ -70,8 +70,6 @@ app.get('/webinars', (req,res) => {
     });
 });
 
-//
-
 app.get('/slots', (req,res) => {
   Slot.find().sort({createdAt: -1 })
     .then((result) => {
@@ -159,7 +157,7 @@ app.post('/contact', (req,res) =>{
     service: 'gmail',
     auth: {
         user: 'samyak.21810494@viit.ac.in',
-        pass: ""
+        pass: "aegleproject200"
     }
   })
   const mailOptions = {
@@ -181,6 +179,7 @@ app.post('/contact', (req,res) =>{
 })
 
 app.get('/schedule', (req,res) => {
+
   Appointment.find().sort({createdAt: -1 })
     .then((result) => {
         res.render('appointments', {title: "All Webinars", appointments: result })
@@ -193,6 +192,30 @@ app.get('/schedule', (req,res) => {
 app.post('/schedule', (req, res, next) => {
   console.log(req.body);
 
+  
+  const tranporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'samyak.21810494@viit.ac.in',
+        pass: ""
+    }
+  })
+  const mailOptions = {
+      from: 'samyak.21810494@viit.ac.in',
+      to: req.body.email,
+      subject: `Aegle Clinic: Appointment Condirmation`,
+      text: `Dear Client,  Your appointment is at ${req.body.time}, ${req.body.day}. For any issues contact: abc(13245678921). Thankyou and Regards.`
+  }
+  tranporter.sendMail(mailOptions, (error, info) => {
+      if(error){
+          console.log(error);
+          res.send('error')
+      }else{
+          console.log('Email Sent: ' + info.response)
+          res.send('success')
+      }
+  })
+
   const appointment= new Appointment({
     name: req.body.name,
     email: req.body.email,
@@ -200,27 +223,6 @@ app.post('/schedule', (req, res, next) => {
     day: req.body.day,
     time:req.body.time
   });
-
-  Slot.find()
-    .then((result) => {
-      var a = req.body.day;
-      if(a==="Today"){
-        var b = result[0].today;
-      }
-      else{
-        var b = result[0].tomorrow;
-      }
-    console.log(b,result[0]._id)
-    Slot.findByIdAndUpdate(result[0]._id,{ $set: {
-      // console.log(b.time)
-    }})
-    .then(()=>{
-
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-  
   appointment.save()
     .then((result) => {
         res.redirect("/schedule");
@@ -228,9 +230,46 @@ app.post('/schedule', (req, res, next) => {
     .catch((err) => {
         console.log(err);
     });
-});
+
+  Slot.find()
+    .then((result) => {
+      var b = result[0][req.body.day];
+      var tSlot = req.body.time;
+      b[tSlot] = false;
+      
+      Slot.findByIdAndUpdate(result[0]._id,{ $set: { 'today': b }})
+      .then((result)=>{
+        console.log(result);
+      })
+      .catch((err) => {
+          console.log(err);
+      });  
+    });
 })
 
+// app.post('/updateSlot/:id/:id1', (req, res,)  => {
+//   console.log(req.params.id,req.params.id1);
+
+//   Slot.find()
+//     .then((result) => {
+//       var a = req.params.id;
+//       var b = result[0][a];
+      
+//       var tSlot = req.params.id;
+//       console.log(b,b[tSlot])
+//       b[tSlot] = true;
+      
+//       Slot.findByIdAndUpdate(result[0]._id,{ $set: {
+//         'today': b
+//       }})
+//       .then((result)=>{
+//         console.log(result);
+//       })
+//       .catch((err) => {
+//           console.log(err);
+//       });  
+//     });
+// })
 
 // app.use('/api/', require('./views/controllers/hello'))   
 
