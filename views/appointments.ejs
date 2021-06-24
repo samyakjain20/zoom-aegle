@@ -2,19 +2,19 @@
 
   <main>
     <%- include("./partials/header.ejs") %>
-    <div class="container">
-      <h1>
-        <strong>All Events & Webinars</strong>
-      </h1>
+    <div class="p-5">
+
       <h1 class="text-center" style="margin-top: 5%;">Appointments</h1>
       <div class="table-responsive mx-5 p-5">
         <table class="table wow fadeIn" data-wow-delay=".4s">           
           <thead>
             <tr>
               <th>Name</th>
+              <th>Booked On</th>
               <th>Day</th>
               <th>Time</th>
               <th>Mail ID</th>
+              <th>Contact No.</th>
               <th>Subject</th>
             </tr>
           </thead>
@@ -23,11 +23,13 @@
               <% appointments.forEach(appointment => { %>  
             <tr>
               <th scope="row"><%= appointment.name %></th>
+              <th><%= appointment.createdAt.toDateString() %></th>
               <td><%= appointment.day %></td>
               <td><%= appointment.time %></td>
               <td><%= appointment.email %></td>
-              <!-- <td><%= appointment.subject %></td> -->
-              <td><a href="/updateSlot/<%= appointment.day %>/<%= appointment.time %>" class="btn btn-sm btn-warning my-0 p-2 px-3">Done</a> </td>                 
+              <td><%= appointment.mobile %></td>
+              <td><%= appointment.subject %></td>
+              <!-- <td><a href="/updateSlot/<%= appointment.day %>/<%= appointment.time %>" class="btn btn-sm btn-warning my-0 p-2 px-3">Done</a> </td>                  -->
             </tr>
             <% }) %>
               <% } else { %>
