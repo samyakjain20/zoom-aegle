@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Schema =mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const AppSchema = new Schema({
     name: {
@@ -19,10 +19,14 @@ const AppSchema = new Schema({
         required: true
     },
     time: {
-      type: String,
-      required: true
-  },
-}, {timestamps: true});
+        type: String,
+        required: true
+    },
+    mobile: {
+        type: Number,
+        required: true,
+    },
+}, { timestamps: true });
 
 const Appointment = mongoose.model('Appointment', AppSchema);
 module.exports = Appointment;

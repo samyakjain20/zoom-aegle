@@ -231,7 +231,8 @@ app.post('/schedule', (req, res, next) => {
     email: req.body.email,
     subject: req.body.subject,
     day: req.body.day,
-    time:req.body.time
+    time:req.body.time,
+    mobile: req.body.mobile
   });
   appointment.save()
     .then((result) => {
@@ -243,17 +244,29 @@ app.post('/schedule', (req, res, next) => {
 
   Slot.find()
     .then((result) => {
-      var b = result[0][req.body.day];
+      var a = req.body.day;
+      var b = result[0][a];
       var tSlot = req.body.time;
       b[tSlot] = false;
-      
-      Slot.findByIdAndUpdate(result[0]._id,{ $set: { 'today': b }})
+      console.log(b);
+      if(a==="today"){
+        Slot.findByIdAndUpdate(result[0]._id,{ $set: { "today" : b }})
       .then((result)=>{
         console.log(result);
       })
       .catch((err) => {
           console.log(err);
-      });  
+      });
+      }
+      else{
+        Slot.findByIdAndUpdate(result[0]._id,{ $set: { "tomorrow" : b }})
+      .then((result)=>{
+        console.log(result);
+      })
+      .catch((err) => {
+          console.log(err);
+      });
+      } 
     });
 })
 
