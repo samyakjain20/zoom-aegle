@@ -12,6 +12,9 @@ const Appointment = require('./models/appointments');
 const multer = require('multer');
 const Slot = require('./models/slot');
 
+const { requireAuth, checkUser } = require('./auth/authMiddleware');
+const authController = require('./auth/authController');
+
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, 'public/imagesUploaded/');
@@ -48,8 +51,15 @@ mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
   .then((result) => console.log('connected to db'))
   .catch((err) => console.log(err));
 
-//router
-app.get('/', (req,res) => {
+//routes
+app.get('*', checkUser); //applied to every get user
+app.get('/signup', authController.signup_get);
+app.post('/signup', authController.signup_post);
+app.get('/login', authController.login_get);
+app.post('/login', authController.login_post);
+app.get('/logout', authController.logout_get);
+
+app.get('/', requireAuth, (req,res) => {
   res.redirect('/webinars');
 });
 
@@ -60,7 +70,7 @@ app.get('/clientWeb', (req,res) => {
   })
 })
 
-app.get('/webinars', (req,res) => {
+app.get('/webinars', requireAuth,  (req,res) => {
   Webinar.find().sort({createdAt: -1 })
     .then((result) => {
         res.render('webinars', {title: "All Webinars", webinars: result })
