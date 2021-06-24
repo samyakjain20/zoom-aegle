@@ -63,11 +63,18 @@
             <li class="nav-item ml-4 mb-0">
               <a class="nav-link waves-effect waves-light font-weight-bold" href="/schedule">APPOINTMENTS</a>
             </li>
-            <li class="nav-item ml-4 mb-0">
+            <!-- <li class="nav-item ml-4 mb-0">
               <a class="nav-link waves-effect waves-light font-weight-bold" href="#">CONTACT
                 <span class="sr-only">(current)</span>
               </a>
-            </li>
+            </li> -->
+            <li>
+              <% if (user) { %>
+                <li><a class="nav-link waves-effect waves-light font-weight-bold">Welcome, <%= user.email %></a></li>
+                <li><a class="nav-link btn-grey btn-sm mt-1 py-1 white-text font-weight-bold" href="/logout">Log out</a></li>
+              <% } else { %>
+                <li><a class="nav-link btn-grey btn-sm mt-1 py-1 white-text font-weight-bold" href="/login">Log in</a></li>
+              <% } %>
             </li>
 
           </ul>
