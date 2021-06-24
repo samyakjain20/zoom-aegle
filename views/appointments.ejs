@@ -23,6 +23,7 @@
               <% appointments.forEach(appointment => { %>  
             <tr>
               <th scope="row"><%= appointment.name %></th>
+              <td><%= appointment.createdAt.toString %></td>
               <td><%= appointment.day %></td>
               <td><%= appointment.time %></td>
               <td><%= appointment.email %></td>
