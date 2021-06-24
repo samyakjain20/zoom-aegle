@@ -173,7 +173,7 @@ app.post('/contact', (req,res) =>{
   })
   const mailOptions = {
       from: 'samyak.21810494@viit.ac.in',
-      to: req.body.email,
+      to: 'samyak.21810494@viit.ac.in',
       subject: `Message from ${req.body.name}: ${req.body.subject}`,
       text: `Mail from ${req.body.email}. ${req.body.message}`
   }
