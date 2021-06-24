@@ -193,28 +193,28 @@ app.post('/schedule', (req, res, next) => {
   console.log(req.body);
 
   
-  const tranporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'samyak.21810494@viit.ac.in',
-        pass: ""
-    }
-  })
-  const mailOptions = {
-      from: 'samyak.21810494@viit.ac.in',
-      to: req.body.email,
-      subject: `Aegle Clinic: Appointment Condirmation`,
-      text: `Dear Client,  Your appointment is at ${req.body.time}, ${req.body.day}. For any issues contact: abc(13245678921). Thankyou and Regards.`
-  }
-  tranporter.sendMail(mailOptions, (error, info) => {
-      if(error){
-          console.log(error);
-          res.send('error')
-      }else{
-          console.log('Email Sent: ' + info.response)
-          res.send('success')
-      }
-  })
+  // const tranporter = nodemailer.createTransport({
+  //   service: 'gmail',
+  //   auth: {
+  //       user: 'samyak.21810494@viit.ac.in',
+  //       pass: ""
+  //   }
+  // })
+  // const mailOptions = {
+  //     from: 'samyak.21810494@viit.ac.in',
+  //     to: req.body.email,
+  //     subject: `Aegle Clinic: Appointment Condirmation`,
+  //     text: `Dear Client,  Your appointment is at ${req.body.time}, ${req.body.day}. For any issues contact: abc(13245678921). Thankyou and Regards.`
+  // }
+  // tranporter.sendMail(mailOptions, (error, info) => {
+  //     if(error){
+  //         console.log(error);
+  //         res.send('error')
+  //     }else{
+  //         console.log('Email Sent: ' + info.response)
+  //         res.send('success')
+  //     }
+  // })
 
   const appointment= new Appointment({
     name: req.body.name,
